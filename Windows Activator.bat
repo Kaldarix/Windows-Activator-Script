@@ -1,4 +1,4 @@
-@set waver=1.0.1
+@set waver=1.1.0
 @setlocal DisableDelayedExpansion
 @echo off
 title Windows Activator Loader
@@ -216,7 +216,7 @@ REM check for Mal-ware that may cause issues with Powershell
 
 for /r "%ProgramFiles%\" %%f in (secureboot.exe) do if exist "%%f" (
 echo "%%f"
-echo Mal%blank%ware found, PowerShell is not working properly.
+echo Malware found, PowerShell is not working properly.
 echo:
 set fixes=%fixes% %mas%remove_mal%w%ware
 goto dk_done
@@ -292,7 +292,6 @@ echo "%_args%" | find /i "/HWID"   %nul% && (setlocal & cls & (call :HWIDActivat
 echo "%_args%" | find /i "/KMS38"  %nul% && (setlocal & cls & (call :KMS38Activation   %_args% %_silent%) & endlocal)
 echo "%_args%" | find /i "/Z-"     %nul% && (setlocal & cls & (call :TSforgeActivation %_args% %_silent%) & endlocal)
 echo "%_args%" | find /i "/K-"     %nul% && (setlocal & cls & (call :KMSActivation     %_args% %_silent%) & endlocal)
-echo "%_args%" | find /i "/Ohook"  %nul% && (setlocal & cls & (call :OhookActivation   %_args% %_silent%) & endlocal)
 exit /b
 )
 
@@ -321,7 +320,7 @@ goto dk_done
 
 cls
 color 07
-title  Microsoft %blank%Activation %blank%Scripts %waver%
+title  Windows Activator %waver%
 if not defined terminal mode 76, 34
 
 if %winbuild% GEQ 10240 if not exist "%SystemRoot%\Servicing\Packages\Microsoft-Windows-Server*Edition~*.mum" if not exist "%SystemRoot%\Servicing\Packages\Microsoft-Windows-*EvalEdition~*.mum" set _hwidgo=1
@@ -344,34 +343,20 @@ echo:
 echo:
 echo:       ______________________________________________________________
 echo:
-echo:                 Activation Methods:
+echo:                          Activation Methods:
 echo:
-if defined _hwidgo (
-call :dk_color3 %_White% "             [1] " %_Green% "HWID" %_White% "                - Windows"
-) else (
-echo:             [1] HWID                - Windows
-)
-if defined _ohookgo (
-call :dk_color3 %_White% "             [2] " %_Green% "Ohook" %_White% "               - Office"
-) else (
-echo:             [2] Ohook               - Office
-)
-if defined _tsforgego (
-call :dk_color3 %_White% "             [3] " %_Green% "TSforge" %_White% "             - Windows / Office / ESU"
-) else (
-echo:             [3] TSforge             - Windows / Office / ESU
-)
-echo:             [4] KMS38               - Windows
-echo:             [5] Online KMS          - Windows / Office
+echo:             [1] HWID                - Windows (Perm)
+echo:             [2] TSforge             - Windows / Office / ESU (Perm)
+echo:             [3] KMS38               - Windows (13 years)
+echo:             [4] Online KMS          - Windows / Office (Perm)
 echo:       ______________________________________________________________ 
 echo:
-echo:             [6] Check Activation Status
-echo:             [7] Change Windows Edition
-echo:             [8] Change Office Edition
+echo:             [5] Check Activation Status
+echo:             [6] Change Windows Edition
 echo:       ______________________________________________________________      
 echo:
-echo:             [9] Troubleshoot
-echo:             [E] Extras
+echo:             [7] Troubleshoot
+echo:             [8] Extras
 echo:             [0] Exit
 echo:       ______________________________________________________________
 echo:
@@ -379,16 +364,15 @@ call :dk_color2 %_White% "         " %_Green% "Choose a menu option using your k
 choice /C:123456789EH0 /N
 set _erl=%errorlevel%
 
-if %_erl%==12 exit /b
-if %_erl%==10 goto :Extras
-if %_erl%==9 setlocal & call :troubleshoot      & cls & endlocal & goto :MainMenu
-if %_erl%==8 setlocal & call :change_offedition & cls & endlocal & goto :MainMenu
-if %_erl%==7 setlocal & call :change_winedition & cls & endlocal & goto :MainMenu
-if %_erl%==6 setlocal & call :check_actstatus   & cls & endlocal & goto :MainMenu
-if %_erl%==5 setlocal & call :KMSActivation     & cls & endlocal & goto :MainMenu
-if %_erl%==4 setlocal & call :KMS38Activation   & cls & endlocal & goto :MainMenu
-if %_erl%==3 setlocal & call :TSforgeActivation & cls & endlocal & goto :MainMenu
-if %_erl%==2 setlocal & call :OhookActivation   & cls & endlocal & goto :MainMenu
+if %_erl%==0 exit /b
+if %_erl%==8 goto :Extras
+if %_erl%==7 setlocal & call :troubleshoot      & cls & endlocal & goto :MainMenu
+rem if %_erl%==7 setlocal & call :change_offedition & cls & endlocal & goto :MainMenu
+if %_erl%==6 setlocal & call :change_winedition & cls & endlocal & goto :MainMenu
+if %_erl%==5 setlocal & call :check_actstatus   & cls & endlocal & goto :MainMenu
+if %_erl%==4 setlocal & call :KMSActivation     & cls & endlocal & goto :MainMenu
+if %_erl%==3 setlocal & call :KMS38Activation   & cls & endlocal & goto :MainMenu
+if %_erl%==2 setlocal & call :TSforgeActivation & cls & endlocal & goto :MainMenu
 if %_erl%==1 setlocal & call :HWIDActivation    & cls & endlocal & goto :MainMenu
 goto :MainMenu
 
@@ -2070,285 +2054,6 @@ set notfoundaltactID=1
 )
 exit /b
 
-:+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-:OhookActivation
-
-::  To activate Office with Ohook activation, run the script with "/Ohook" parameter or change 0 to 1 in below line
-set _act=0
-
-::  To remove Ohook activation, run the script with /Ohook-Uninstall parameter or change 0 to 1 in below line
-set _rem=0
-
-::  If value is changed in above lines or parameter is used then script will run in unattended mode
-
-::========================================================================================================================================
-
-cls
-color 07
-title  Ohook Activation %waver%
-
-set _args=
-set _elev=
-set _unattended=0
-
-set _args=%*
-if defined _args set _args=%_args:"=%
-if defined _args (
-for %%A in (%_args%) do (
-if /i "%%A"=="/Ohook"                  set _act=1
-if /i "%%A"=="/Ohook-Uninstall"        set _rem=1
-if /i "%%A"=="-el"                     set _elev=1
-)
-)
-
-for %%A in (%_act% %_rem%) do (if "%%A"=="1" set _unattended=1)
-
-::========================================================================================================================================
-
-if %_rem%==1 goto :oh_uninstall
-
-:oh_menu
-
-if %_unattended%==0 (
-cls
-if not defined terminal mode 76, 25
-title  Ohook Activation %waver%
-call :oh_checkapps
-echo:
-echo:
-echo:
-echo:
-if defined checknames (call :dk_color %_Yellow% "                Close [!checknames!] before proceeding...")
-echo         ____________________________________________________________
-echo:
-echo                 [1] Install Ohook Office Activation
-echo:
-echo                 [2] Uninstall Ohook
-echo                 ____________________________________________
-echo:
-echo                 [3] Download Office
-echo:
-echo                 [0] %_exitmsg%
-echo         ____________________________________________________________
-echo: 
-call :dk_color2 %_White% "             " %_Green% "Choose a menu option using your keyboard [1,2,3,0]"
-choice /C:1230 /N
-set _el=!errorlevel!
-if !_el!==4  exit /b
-if !_el!==3  start %mas%genuine-installation-media &goto :oh_menu
-if !_el!==2  goto :oh_uninstall
-if !_el!==1  goto :oh_menu2
-goto :oh_menu
-)
-
-::========================================================================================================================================
-
-:oh_menu2
-
-cls
-if not defined terminal (
-mode 140, 32
-if exist "%SysPath%\spp\store_test\" mode 140, 32
-%psc% "&{$W=$Host.UI.RawUI.WindowSize;$B=$Host.UI.RawUI.BufferSize;$W.Height=32;$B.Height=300;$Host.UI.RawUI.WindowSize=$W;$Host.UI.RawUI.BufferSize=$B;}" %nul%
-)
-title  Ohook Activation %waver%
-
-echo:
-echo Initializing...
-call :dk_chkmal
-
-if not exist %SysPath%\%_slexe% (
-%eline%
-echo [%SysPath%\%_slexe%] file is missing, aborting...
-echo:
-if not defined results (
-call :dk_color %Blue% "Go back to Main Menu, select Troubleshoot and run DISM Restore and SFC Scan options."
-call :dk_color %Blue% "After that, restart system and try activation again."
-echo:
-set fixes=%fixes% %mas%troubleshoot
-)
-goto dk_done
-)
-
-::========================================================================================================================================
-
-set spp=SoftwareLicensingProduct
-set sps=SoftwareLicensingService
-
-call :dk_reflection
-call :dk_ckeckwmic
-call :dk_product
-call :dk_sppissue
-
-::========================================================================================================================================
-
-set error=
-
-cls
-echo:
-call :dk_showosinfo
-
-::========================================================================================================================================
-
-echo Initiating Diagnostic Tests...
-
-set "_serv=%_slser% Winmgmt"
-
-::  Software Protection
-::  Windows Management Instrumentation
-
-set notwinact=1
-set ohookact=1
-call :dk_errorcheck
-
-call :oh_setspp
-
-::  Check unsupported office versions
-
-set o14c2r=
-set o16uwp=
-
-set _68=HKLM\SOFTWARE\Microsoft\Office
-set _86=HKLM\SOFTWARE\Wow6432Node\Microsoft\Office
-for /f "skip=2 tokens=2*" %%a in ('"reg query %_86%\14.0\Common\InstallRoot /v Path" %nul6%') do if exist "%%b\*Picker.dll" (set o14msi=Office 2010 MSI )
-for /f "skip=2 tokens=2*" %%a in ('"reg query %_68%\14.0\Common\InstallRoot /v Path" %nul6%') do if exist "%%b\*Picker.dll" (set o14msi=Office 2010 MSI )
-%nul% reg query %_68%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R 
-%nul% reg query %_86%\14.0\CVH /f Click2run /k         && set o14c2r=Office 2010 C2R 
-
-if %winbuild% GEQ 10240 (
-for /f "delims=" %%a in ('%psc% "(Get-AppxPackage -name 'Microsoft.Office.Desktop' | Select-Object -ExpandProperty InstallLocation)" %nul6%') do (if exist "%%a\Integration\Integrator.exe" set o16uwp=Office UWP )
-)
-
-if not "%o14c2r%%o16uwp%"=="" (
-echo:
-call :dk_color %Red% "Checking Unsupported Office Install     [ %o14c2r%%o16uwp%]"
-if not "%o16uwp%"=="" call :dk_color %Blue% "Use TSforge option to activate it."
-)
-
-if %winbuild% GEQ 10240 %psc% "Get-AppxPackage -name "Microsoft.MicrosoftOfficeHub"" | find /i "Office" %nul1% && (
-set ohub=1
-)
-
-::========================================================================================================================================
-
-::  Check supported office versions
-
-call :oh_getpath
-
-sc query ClickToRunSvc %nul%
-set error1=%errorlevel%
-
-if defined o16c2r if %error1% EQU 1060 (
-call :dk_color %Red% "Checking ClickToRun Service             [Not found, Office 16.0 files found]"
-set o16c2r=
-set error=1
-)
-
-sc query OfficeSvc %nul%
-set error2=%errorlevel%
-
-if defined o15c2r if %error1% EQU 1060 if %error2% EQU 1060 (
-call :dk_color %Red% "Checking ClickToRun Service             [Not found, Office 15.0 files found]"
-set o15c2r=
-set error=1
-)
-
-if "%o16c2r%%o15c2r%%o16msi%%o15msi%%o14msi%"=="" (
-set error=1
-echo:
-if not "%o14c2r%%o16uwp%"=="" (
-call :dk_color %Red% "Checking Supported Office Install       [Not Found]"
-) else (
-call :dk_color %Red% "Checking Installed Office               [Not Found]"
-)
-
-if defined ohub (
-echo:
-echo You only have the Office Dashboard app installed. You need to install the full version of Office.
-)
-echo:
-call :dk_color %Blue% "Download and install Office from the below URL and then try again."
-echo:
-set fixes=%fixes% %mas%genuine-installation-media
-call :dk_color %_Yellow% "%mas%genuine-installation-media"
-goto dk_done
-)
-
-set multioffice=
-if not "%o16c2r%%o15c2r%%o16msi%%o15msi%%o14msi%"=="1" set multioffice=1
-if not "%o14c2r%%o16uwp%"=="" set multioffice=1
-
-if defined multioffice (
-call :dk_color %Gray% "Checking Multiple Office Install        [Found, its recommended to install only one version]"
-)
-
-::========================================================================================================================================
-
-::  Check Windows Server
-
-set winserver=
-reg query "HKLM\SYSTEM\CurrentControlSet\Control\ProductOptions" /v ProductType %nul2% | find /i "WinNT" %nul1% || set winserver=1
-if not defined winserver (
-reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v EditionID %nul2% | find /i "Server" %nul1% && set winserver=1
-)
-
-::========================================================================================================================================
-
-::  Process Office 15.0 C2R
-
-if not defined o15c2r goto :starto16c2r
-
-call :oh_reset
-call :dk_actids 0ff1ce15-a989-479d-af46-f275c6370663
-
-set oVer=15
-for /f "skip=2 tokens=2*" %%a in ('"reg query %o15c2r_reg% /v InstallPath" %nul6%') do (set "_oRoot=%%b\root")
-for /f "skip=2 tokens=2*" %%a in ('"reg query %o15c2r_reg%\Configuration /v Platform" %nul6%') do (set "_oArch=%%b")
-for /f "skip=2 tokens=2*" %%a in ('"reg query %o15c2r_reg%\Configuration /v VersionToReport" %nul6%') do (set "_version=%%b")
-for /f "skip=2 tokens=2*" %%a in ('"reg query %o15c2r_reg%\Configuration /v ProductReleaseIds" %nul6%') do (set "_prids=%o15c2r_reg%\Configuration /v ProductReleaseIds" & set "_config=%o15c2r_reg%\Configuration")
-if not defined _oArch   for /f "skip=2 tokens=2*" %%a in ('"reg query %o15c2r_reg%\propertyBag /v Platform" %nul6%') do (set "_oArch=%%b")
-if not defined _version for /f "skip=2 tokens=2*" %%a in ('"reg query %o15c2r_reg%\propertyBag /v version" %nul6%') do (set "_version=%%b")
-if not defined _prids   for /f "skip=2 tokens=2*" %%a in ('"reg query %o15c2r_reg%\propertyBag /v ProductReleaseId" %nul6%') do (set "_prids=%o15c2r_reg%\propertyBag /v ProductReleaseId" & set "_config=%o15c2r_reg%\propertyBag")
-
-echo "%o15c2r_reg%" | find /i "Wow6432Node" %nul1% && (set _tok=10) || (set _tok=9)
-for /f "tokens=%_tok% delims=\" %%a in ('reg query %o15c2r_reg%\ProductReleaseIDs\Active %nul6% ^| findstr /i "Retail Volume"') do (
-echo "!_oIds!" | find /i " %%a " %nul1% || (set "_oIds= !_oIds! %%a ")
-)
-
-set "_oLPath=%_oRoot%\Licenses"
-set "_oIntegrator=%_oRoot%\integration\integrator.exe"
-
-if /i "%_oArch%"=="x64" (set "_hookPath=%_oRoot%\vfs\System"    & set "_hook=sppc64.dll")
-if /i "%_oArch%"=="x86" (set "_hookPath=%_oRoot%\vfs\SystemX86" & set "_hook=sppc32.dll")
-
-call :oh_ppcpath
-
-echo:
-echo Activating Office...                    [C2R ^| %_version% ^| %_oArch%]
-
-if not defined _oIds (
-call :dk_color %Red% "Checking Installed Products             [Product IDs not found. Aborting activation...]"
-set error=1
-goto :starto16c2r
-)
-
-if defined noOsppc (
-call :dk_color %Red% "Checking OSPPC.DLL                      [Not found. Aborting activation...]"
-call :dk_color %Blue% "%_fixmsg%"
-set error=1
-goto :starto16c2r
-)
-
-call :oh_expiredpreview 2013
-call :oh_fixprids
-call :oh_process
-if defined isOspp (
-call :oh_hookinstall_ospp
-) else (
-call :oh_hookinstall
-)
-
 ::========================================================================================================================================
 
 :starto16c2r
@@ -3926,7 +3631,7 @@ set "_debug=0"
 
 cls
 color 07
-set KS=K%blank%MS
+set KS=KMS
 title  TSforge Activation %waver%
 
 set _args=
@@ -12390,7 +12095,7 @@ set _port=
 
 cls
 color 07
-set KS=K%blank%MS
+set KS=KMS
 title  Online %KS% Activation %waver%
 
 set _args=
@@ -18138,151 +17843,6 @@ echo "%branch%" | find /i "%%D" %nul1% && (set "key=%%A" & set "_chan=%%B")
 )
 exit /b
 
-:+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-:change_offedition
-
-set "line=echo ___________________________________________________________________________________________"
-
-cls
-if not defined terminal mode 98, 30
-title  Change Office Edition %waver%
-
-if %winbuild% LSS 7600 (
-%eline%
-echo Unsupported OS version detected [%winbuild%].
-echo This option is supported only for Windows 7/8/8.1/10/11 and their Server equivalents.
-goto dk_done
-)
-
-echo:
-echo Initializing...
-echo:
-
-::========================================================================================================================================
-
-set spp=SoftwareLicensingProduct
-set sps=SoftwareLicensingService
-
-call :dk_reflection
-call :dk_ckeckwmic
-call :dk_sppissue
-
-for /f "tokens=6-7 delims=[]. " %%i in ('ver') do if not "%%j"=="" (
-set fullbuild=%%i.%%j
-) else (
-for /f "tokens=3" %%G in ('"reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v UBR" %nul6%') do if not errorlevel 1 set /a "UBR=%%G"
-for /f "skip=2 tokens=3,4 delims=. " %%G in ('reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v BuildLabEx') do (
-if defined UBR (set "fullbuild=%%G.!UBR!") else (set "fullbuild=%%G.%%H")
-)
-)
-
-::========================================================================================================================================
-
-::  Check Windows Edition
-::  This is just to ensure that SPP/WMI are functional
-
-cls
-set osedition=0
-if %_wmic% EQU 1 set "chkedi=for /f "tokens=2 delims==" %%a in ('"wmic path %spp% where (ApplicationID='55c92734-d682-4d71-983e-d6ec3f16059f' AND LicenseDependsOn is NULL AND PartialProductKey IS NOT NULL) get LicenseFamily /VALUE" %nul6%')"
-if %_wmic% EQU 0 set "chkedi=for /f "tokens=2 delims==" %%a in ('%psc% "(([WMISEARCHER]'SELECT LicenseFamily FROM %spp% WHERE ApplicationID=''55c92734-d682-4d71-983e-d6ec3f16059f'' AND LicenseDependsOn is NULL AND PartialProductKey IS NOT NULL').Get()).LicenseFamily ^| %% {echo ('LicenseFamily='+$_)}" %nul6%')"
-%chkedi% do if not errorlevel 1 (call set "osedition=%%a")
-
-if %osedition%==0 (
-%eline%
-echo Failed to detect OS Edition. Aborting...
-echo:
-call :dk_color %Blue% "To fix this issue, activate Windows from the main menu."
-goto dk_done
-)
-
-::========================================================================================================================================
-
-::  Check installed Office 16.0 C2R
-
-set o16c2r=
-set _68=HKLM\SOFTWARE\Microsoft\Office
-set _86=HKLM\SOFTWARE\Wow6432Node\Microsoft\Office
-
-for /f "skip=2 tokens=2*" %%a in ('"reg query %_86%\ClickToRun /v InstallPath" %nul6%') do if exist "%%b\root\Licenses16\ProPlus*.xrm-ms" (set o16c2r=1&set o16c2r_reg=%_86%\ClickToRun)
-for /f "skip=2 tokens=2*" %%a in ('"reg query %_68%\ClickToRun /v InstallPath" %nul6%') do if exist "%%b\root\Licenses16\ProPlus*.xrm-ms" (set o16c2r=1&set o16c2r_reg=%_68%\ClickToRun)
-
-if not defined o16c2r_reg (
-%eline%
-echo Office C2R 2016 or later is not installed, which is required for this script.
-echo Download and install Office from below URL and try again.
-echo:
-set fixes=%fixes% %mas%genuine-installation-media
-call :dk_color %_Yellow% "%mas%genuine-installation-media"
-goto dk_done
-)
-
-call :ch_getinfo
-
-::========================================================================================================================================
-
-::  Check minimum required details
-
-if %verchk% LSS 9029 (
-%eline%
-echo Installed Office version is %_version%.
-echo Minimum required version is 16.0.9029.2167
-echo Aborting...
-echo:
-call :dk_color %Blue% "Download and install latest Office from below URL and try again."
-set fixes=%fixes% %mas%genuine-installation-media
-call :dk_color %_Yellow% "%mas%genuine-installation-media"
-goto dk_done
-)
-
-for %%A in (
-_oArch
-_updch
-_lang
-_clversion
-_version
-_AudienceData
-_oIds
-_c2rXml
-_c2rExe
-_c2rCexe
-_masterxml
-) do (
-if not defined %%A (
-%eline%
-echo Failed to find %%A. Aborting...
-echo:
-call :dk_color %Blue% "Download and install Office from below URL and try again."
-set fixes=%fixes% %mas%genuine-installation-media
-call :dk_color %_Yellow% "%mas%genuine-installation-media"
-goto dk_done
-)
-)
-
-if %winbuild% LSS 10240 if defined ltscfound (
-%eline%
-echo Installed Office appears to be from the Volume channel %ltsc19%%ltsc21%%ltsc24%,
-echo which is not officially supported on your Windows build version %winbuild%.
-echo Aborting...
-echo:
-set fixes=%fixes% %mas%troubleshoot
-goto dk_done
-)
-
-set unsupbuild=
-if %winbuild% LSS 10240 if %winbuild% GEQ 9200 if %verchk% GTR 16026 set unsupbuild=1
-if %winbuild% LSS 9200 if %verchk% GTR 12527 set unsupbuild=1
-
-if defined unsupbuild (
-%eline%
-echo Unsupported Office %verchk% is installed on your Windows build version %winbuild%.
-echo Aborting...
-echo:
-set fixes=%fixes% %mas%troubleshoot
-goto dk_done
-)
-
-::========================================================================================================================================
 
 :oemenu
 
