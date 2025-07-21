@@ -1,7 +1,7 @@
-@set masver=1.0
+@set waver=1.0.1
 @setlocal DisableDelayedExpansion
 @echo off
-title Windows Activation Script Loader
+title Windows Activator Loader
 
 
 setlocal EnableExtensions
@@ -43,10 +43,6 @@ exit /b
 
 ::========================================================================================================================================
 
-set "blank="
-set "mas=ht%blank%tps%blank%://mass%blank%grave.dev/"
-set "github=ht%blank%tps%blank%://github.com/massgra%blank%vel/Micro%blank%soft-Acti%blank%vation-Scripts"
-set "selfgit=ht%blank%tps%blank%://git.acti%blank%vated.win/massg%blank%rave/Micr%blank%osoft-Act%blank%ivation-Scripts"
 
 ::  Check if Null service is working, it's important for the batch script
 
@@ -56,7 +52,6 @@ echo:
 echo Null service is not running, script may crash...
 echo:
 echo:
-echo Check this webpage for help - %mas%fix_service
 echo:
 echo:
 ping 127.0.0.1 -n 20
@@ -71,7 +66,6 @@ echo:
 echo Error - Script either has LF line ending issue or an empty line at the end of the script is missing.
 echo:
 echo:
-echo Check this webpage for help - %mas%troubleshoot
 echo:
 echo:
 ping 127.0.0.1 -n 20 >nul
@@ -84,7 +78,7 @@ popd
 
 cls
 color 07
-title  Microsoft Activation Script %masver%
+title  Windows Activator %waver%
 
 set _args=
 set _elev=
@@ -117,7 +111,6 @@ echo Failed to detect Windows build number.
 echo:
 setlocal EnableDelayedExpansion
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 
@@ -209,7 +202,6 @@ echo FullLanguage mode not found in PowerShell. Aborting...
 echo If you have applied restrictions on Powershell then undo those changes.
 echo:
 set fixes=%fixes% %mas%fix_powershell
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%fix_powershell"
 goto dk_done
 )
 
@@ -227,7 +219,6 @@ echo "%%f"
 echo Mal%blank%ware found, PowerShell is not working properly.
 echo:
 set fixes=%fixes% %mas%remove_mal%w%ware
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%remove_mal%w%ware"
 goto dk_done
 )
 
@@ -243,7 +234,6 @@ cmd /c "%psc% ""$av = Get-WmiObject -Namespace root\SecurityCenter2 -Class AntiV
 
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 
@@ -331,7 +321,7 @@ goto dk_done
 
 cls
 color 07
-title  Microsoft %blank%Activation %blank%Scripts %masver%
+title  Microsoft %blank%Activation %blank%Scripts %waver%
 if not defined terminal mode 76, 34
 
 if %winbuild% GEQ 10240 if not exist "%SystemRoot%\Servicing\Packages\Microsoft-Windows-Server*Edition~*.mum" if not exist "%SystemRoot%\Servicing\Packages\Microsoft-Windows-*EvalEdition~*.mum" set _hwidgo=1
@@ -561,7 +551,7 @@ set _NoEditionChange=0
 
 cls
 color 07
-title  HWID Activation %masver%
+title  HWID Activation %waver%
 
 set _args=
 set _elev=
@@ -606,7 +596,7 @@ if not defined terminal (
 mode 110, 34
 if exist "%SysPath%\spp\store_test\" mode 134, 34
 )
-title  HWID Activation %masver%
+title  HWID Activation %waver%
 
 echo:
 echo Initializing...
@@ -671,7 +661,6 @@ echo Evaluation editions cannot be activated outside of their evaluation period.
 call :dk_color %Blue% "Use TSforge activation option from the main menu to reset evaluation period."
 echo:
 set fixes=%fixes% %mas%evaluation_editions
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%evaluation_editions"
 goto dk_done
 )
 )
@@ -758,7 +747,6 @@ echo %mas%
 ) else (
 echo Required license files not found in %SysPath%\spp\tokens\skus\
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 echo:
 goto dk_done
@@ -938,7 +926,6 @@ findstr /i "%%#" "%SysPath%\drivers\etc\hosts" %nul1% && set "hosfail= [%%# Bloc
 )
 call :dk_color %Red% "Checking Licensing Servers              [Failed to Connect]!hosfail!"
 set fixes=%fixes% %mas%licensing-servers-issue
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%licensing-servers-issue"
 )
 
 ::==========================================================================================================================================
@@ -975,7 +962,6 @@ call :dk_color %Red% "Checking Windows Update Registry        [Corruption Found]
 if !wcount! GTR 2 (
 call :dk_color %Red% "Windows seems to be infected with Mal%w%ware."
 set fixes=%fixes% %mas%remove_mal%w%ware
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%remove_mal%w%ware"
 ) else (
 call :dk_color %Blue% "HWID activation needs working Windows updates, if you have used any tool to block updates, undo it."
 )
@@ -1000,7 +986,6 @@ if not defined wucorrupt if not defined wublock if not defined wuerror if not de
 echo "%error_code%" | findstr /i "0x80072e 0x80072f 0x800704cf 0x87e10bcf 0x800705b4" %nul% && (
 call :dk_color %Red% "Checking Internet Issues                [Found] %error_code%"
 set fixes=%fixes% %mas%licensing-servers-issue
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%licensing-servers-issue"
 )
 )
 )
@@ -1018,7 +1003,6 @@ call :dk_color %Blue% "Use TSforge activation option from the main menu instead.
 ) else (
 if not defined error call :dk_color %Blue% "%_fixmsg%"
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 )
 
@@ -1351,7 +1335,7 @@ echo sc start %_slser% [Error Code: %spperror%]
 )
 
 echo:
-%psc% "$job = Start-Job { (Get-WmiObject -Query 'SELECT * FROM %sps%').Version }; if (-not (Wait-Job $job -Timeout 30)) {write-host '%_slser% is not working correctly. Check this webpage for help - %mas%troubleshoot'}"
+%psc% "$job = Start-Job { (Get-WmiObject -Query 'SELECT * FROM %sps%').Version }; if (-not (Wait-Job $job -Timeout 30)) {write-host '%_slser% is not working correctly."
 exit /b
 
 ::  Get Product name (WMI/REG methods are not reliable in all conditions, hence winbrand.dll method is used)
@@ -1427,7 +1411,6 @@ if defined pupfound call :dk_color %Gray% "Checking PUP Activators              
 if defined results call :dk_color %Red% "Checking Probable Mal%w%ware Infection..."
 if defined results (call :dk_color %Red% "%results%"&set showfix=1)
 set fixes=%fixes% %mas%remove_mal%w%ware
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%remove_mal%w%ware"
 echo:
 )
 
@@ -1548,7 +1531,6 @@ set showfix=1
 )
 echo %serv_e% | findstr /i "sppsvc-1060" %nul% && (
 set fixes=%fixes% %mas%fix_service
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%fix_service"
 set showfix=1
 )
 )
@@ -1605,7 +1587,6 @@ if not defined notwinact if exist "%SystemRoot%\Servicing\Packages\Microsoft-Win
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v EditionID %nul2% | find /i "Eval" %nul1% || (
 call :dk_color %Red% "Checking Eval Packages                  [Non-Eval Licenses are installed in Eval Windows]"
 set fixes=%fixes% %mas%evaluation_editions
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%evaluation_editions"
 )
 )
 
@@ -1738,7 +1719,7 @@ call :dk_color %Red% "Checking SkipRearm                      [Default 0 Value N
 if %winbuild% GEQ 7600 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SoftwareProtectionPlatform\Plugins\Objects\msft:rm/algorithm/hwid/4.0" /f ba02fed39662 /d %nul% || (
 call :dk_color %Red% "Checking SPP Registry Key               [Incorrect ModuleId Found]"
 set fixes=%fixes% %mas%issues_due_to_gaming_spoofers
-call :dk_color2 %Blue% "Most likely caused by gaming spoofers. Check this webpage for help - " %_Yellow% " %mas%issues_due_to_gaming_spoofers"
+call :dk_color2 %Blue% "Most likely caused by gaming spoofers."
 set error=1
 set showfix=1
 )
@@ -1754,7 +1735,6 @@ set error=1
 set showfix=1
 call :dk_color %Red% "Checking TokenStore Registry Key        [Correct Path Not Found] [!tokenstore!]"
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 )
 
@@ -2106,7 +2086,7 @@ set _rem=0
 
 cls
 color 07
-title  Ohook Activation %masver%
+title  Ohook Activation %waver%
 
 set _args=
 set _elev=
@@ -2133,7 +2113,7 @@ if %_rem%==1 goto :oh_uninstall
 if %_unattended%==0 (
 cls
 if not defined terminal mode 76, 25
-title  Ohook Activation %masver%
+title  Ohook Activation %waver%
 call :oh_checkapps
 echo:
 echo:
@@ -2172,7 +2152,7 @@ mode 140, 32
 if exist "%SysPath%\spp\store_test\" mode 140, 32
 %psc% "&{$W=$Host.UI.RawUI.WindowSize;$B=$Host.UI.RawUI.BufferSize;$W.Height=32;$B.Height=300;$Host.UI.RawUI.WindowSize=$W;$Host.UI.RawUI.BufferSize=$B;}" %nul%
 )
-title  Ohook Activation %masver%
+title  Ohook Activation %waver%
 
 echo:
 echo Initializing...
@@ -2187,7 +2167,6 @@ call :dk_color %Blue% "Go back to Main Menu, select Troubleshoot and run DISM Re
 call :dk_color %Blue% "After that, restart system and try activation again."
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 goto dk_done
 )
@@ -2481,13 +2460,11 @@ echo:
 if not defined error (
 call :dk_color %Green% "Office is permanently activated."
 if defined ohub call :dk_color %Gray% "Office apps such as Word, Excel are activated, use them directly. Ignore 'Buy' button in Office dashboard app."
-echo Help: %mas%troubleshoot
 ) else (
 call :dk_color %Red% "Some errors were detected."
 if not defined ierror if not defined showfix if not defined serv_cor if not defined serv_cste call :dk_color %Blue% "%_fixmsg%"
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 goto :dk_done
@@ -2498,7 +2475,7 @@ goto :dk_done
 
 cls
 if not defined terminal mode 145, 32
-title  Uninstall Ohook Activation %masver%
+title  Uninstall Ohook Activation %waver%
 
 set _present=
 set _unerror=
@@ -3950,7 +3927,7 @@ set "_debug=0"
 cls
 color 07
 set KS=K%blank%MS
-title  TSforge Activation %masver%
+title  TSforge Activation %waver%
 
 set _args=
 set _elev=
@@ -3998,7 +3975,7 @@ goto dk_done
 if %_unattended%==0 (
 cls
 if not defined terminal mode 76, 33
-title  TSforge Activation %masver%
+title  TSforge Activation %waver%
 
 echo:
 echo:
@@ -4115,7 +4092,7 @@ mode 125, %height%
 if exist "%SysPath%\spp\store_test\" mode 134, %height%
 %psc% "&{$W=$Host.UI.RawUI.WindowSize;$B=$Host.UI.RawUI.BufferSize;$W.Height=%height%;$B.Height=300;$Host.UI.RawUI.WindowSize=$W;$Host.UI.RawUI.BufferSize=$B;}" %nul%
 )
-title  TSforge Activation %masver%
+title  TSforge Activation %waver%
 
 echo:
 echo Initializing...
@@ -4130,7 +4107,6 @@ call :dk_color %Blue% "Go back to Main Menu, select Troubleshoot and run DISM Re
 call :dk_color %Blue% "After that, restart system and try activation again."
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 goto dk_done
 )
@@ -4144,7 +4120,6 @@ echo Install .NET Framework 4.8 and Windows Management Framework 5.1
 )
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 )
@@ -4158,7 +4133,6 @@ echo Evaluation WLMS service is running, %_slser% service can not be stopped. Ab
 echo Install Non-Eval version for Windows build %winbuild%.
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 )
@@ -4249,7 +4223,6 @@ call :ts_getedition
 if not defined tsedition (
 call :dk_color %Red% "Checking Windows Edition ID             [Not found in installed licenses, aborting...]"
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto :dk_done
 )
 
@@ -4720,7 +4693,6 @@ if %winbuild% EQU 9600 set esuavail=1
 if defined esuavail (
 call :dk_color %Red% "Checking Activation ID                  [ESU license is not found, make sure Windows is fully updated]"
 set fixes=%fixes% %mas%tsforge#windows-esu
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%tsforge#windows-esu"
 ) else (
 call :dk_color %Gray% "Checking Activation ID                  [ESU is not available for %winos%]"
 )
@@ -5182,7 +5154,6 @@ echo Checking Activation ID                  [%%A] [%%B]
 
 if not defined ohostexist (
 call :dk_color %Gray% "Checking Activation ID                  [Not found for Office %KS% Host]"
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%tsforge#office-kms-host"
 )
 
 echo:
@@ -5263,7 +5234,6 @@ set resetstuff=1
 if %errorlevel%==3 (
 call :dk_color %Red% "Reset Failed."
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 ) else (
 call :dk_color %Green% "Reset process has been successfully done."
 )
@@ -5442,7 +5412,6 @@ call :dk_color %Gray% "To activate, check your internet connection and ensure th
 call :dk_color %Blue% "This Windows version is known to not activate due to MS Windows/Server issues."
 )
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 )
 
@@ -5459,7 +5428,6 @@ echo:
 if !errorlevel!==3 (
 if %_actman%==0 (if not defined error call :dk_color %Blue% "%_fixmsg%")
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 ) else (
 echo "%tsids%" | find /i "7e94be23-b161-4956-a682-146ab291774c" %nul1% && (
 call :dk_color %Gray% "Windows Update can receive 1-3 years of ESU. 4-6 years ESU is not officially supported, but you can manually install updates."
@@ -5487,7 +5455,6 @@ call :dk_reeval %nul%
 
 if not defined tsids if defined error if not defined showfix (
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 goto :dk_done
@@ -5500,7 +5467,7 @@ cls
 if not defined terminal (
 mode 100, 30
 )
-title  Remove TSforge Activation %masver%
+title  Remove TSforge Activation %waver%
 
 echo:
 echo TSforge activation doesn't modify any Windows components and doesn't install any new files.
@@ -5661,7 +5628,6 @@ call :dk_color %Red% "Checking Activation ID                  [Office %oVer%.0 !
 set error=1
 set showfix=1
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 echo %%# | find /i "2024" %nul% && (
@@ -11619,7 +11585,7 @@ set _NoEditionChange=0
 
 cls
 color 07
-title  KMS38 Activation %masver%
+title  KMS38 Activation %waver%
 
 set _args=
 set _elev=
@@ -11666,7 +11632,7 @@ if %_rem%==1 goto :k_uninstall
 if %_unattended%==0 (
 cls
 if not defined terminal mode 76, 25
-title  KMS38 Activation %masver%
+title  KMS38 Activation %waver%
 
 echo:
 echo:
@@ -11700,7 +11666,7 @@ if not defined terminal (
 mode 110, 34
 if exist "%SysPath%\spp\store_test\" mode 134, 34
 )
-title  KMS38 Activation %masver%
+title  KMS38 Activation %waver%
 
 echo:
 echo Initializing...
@@ -11719,7 +11685,6 @@ call :dk_color %Blue% "Go back to Main Menu, select Troubleshoot and run DISM Re
 call :dk_color %Blue% "After that, restart system and try activation again."
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 goto dk_done
 )
@@ -11777,7 +11742,6 @@ echo Evaluation editions cannot be activated outside of their evaluation period.
 call :dk_color %Blue% "Use TSforge activation option from the main menu to reset evaluation period."
 echo:
 set fixes=%fixes% %mas%evaluation_editions
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%evaluation_editions"
 )
 goto dk_done
 )
@@ -11793,7 +11757,6 @@ if not exist "!_work!\clipup.exe" (
 echo clipup.exe doesn't exist in Server Cor/Acor [No GUI] versions.
 echo The file is required for KMS38 activation.
 echo Check the below page for instructions on how to activate it.
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%kms38"
 goto dk_done
 )
 )
@@ -11805,7 +11768,6 @@ if defined a_cor (
 if !errorlevel!==3 (
 %eline%
 echo Valid digital signature not found in clipup.exe file.
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 )
@@ -11873,13 +11835,11 @@ if exist "%SysPath%\spp\tokens\skus\%osedition%\*GVLK*.xrm-ms" set sppks=1
 if defined skunotfound (
 call :dk_color %Red% "Required license files not found in %SysPath%\spp\tokens\skus\"
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 if defined sppks (
 call :dk_color %Red% "KMS38 activation is supported but failed to find the key."
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 if not defined skunotfound if not defined sppks (
@@ -11930,7 +11890,6 @@ if %_wmic% EQU 0 for /f "tokens=2 delims==" %%a in ('%psc% "(([WMISEARCHER]'SELE
 if not defined app (
 call :dk_color %Red% "Checking Installed GVLK Activation ID   [Not Found] Aborting..."
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto :dk_done
 )
 
@@ -12092,7 +12051,6 @@ goto :k_final
 call :dk_color %Red% "Activation Failed"
 if not defined error call :dk_color %Blue% "%_fixmsg%"
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 
 ::========================================================================================================================================
 
@@ -12152,7 +12110,7 @@ goto :dk_done
 
 cls
 if not defined terminal mode 99, 28
-title  Remove KMS38 Protection %masver%
+title  Remove KMS38 Protection %waver%
 
 %nul% reg delete "HKLM\%specific_kms%" /f
 %nul% reg delete "HKU\S-1-5-20\%specific_kms%" /f
@@ -12433,7 +12391,7 @@ set _port=
 cls
 color 07
 set KS=K%blank%MS
-title  Online %KS% Activation %masver%
+title  Online %KS% Activation %waver%
 
 set _args=
 set _elev=
@@ -12468,7 +12426,7 @@ if not defined _server set _port=
 if %_unattended%==0 (
 cls
 if not defined terminal mode 76, 30
-title  Online %KS% Activation %masver%
+title  Online %KS% Activation %waver%
 
 echo:
 echo:
@@ -12536,7 +12494,7 @@ mode 115, 32
 if exist "%SysPath%\spp\store_test\" mode 135, 32
 %psc% "&{$W=$Host.UI.RawUI.WindowSize;$B=$Host.UI.RawUI.BufferSize;$W.Height=32;$B.Height=300;$Host.UI.RawUI.WindowSize=$W;$Host.UI.RawUI.BufferSize=$B;}" %nul%
 )
-title  Online %KS% Activation %masver%
+title  Online %KS% Activation %waver%
 
 echo:
 echo Initializing...
@@ -12551,7 +12509,6 @@ call :dk_color %Blue% "Go back to Main Menu, select Troubleshoot and run DISM Re
 call :dk_color %Blue% "After that, restart system and try activation again."
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 goto dk_done
 )
@@ -12645,7 +12602,6 @@ call :dk_color %Blue% "Go back to main menu and use [Change Edition] option."
 ) else (
 call :dk_color %Blue% "Use TSforge activation option from the main menu to reset evaluation period."
 set fixes=%fixes% %mas%evaluation_editions
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%evaluation_editions"
 )
 
 goto :ks_office
@@ -12697,13 +12653,11 @@ if %winbuild% LSS 7600 if exist "%SysPath%\licensing\skus\Security-Licensing-SLC
 if defined skunotfound (
 call :dk_color %Red% "Required license files not found."
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 if defined sppks (
 call :dk_color %Red% "%KS% activation is supported but failed to find the %KS% key."
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 if not defined skunotfound if not defined sppks (
@@ -13285,7 +13239,7 @@ exit /b
 
 cls
 if not defined terminal mode 91, 30
-title  Online %KS% Complete Uninstall %masver%
+title  Online %KS% Complete Uninstall %waver%
 
 set "uline=__________________________________________________________________________________________"
 
@@ -13378,16 +13332,6 @@ exit /b
 
 :_extracttask:
 @echo off
-
-::   Renew K-M-S activation with Online servers via scheduled task
-
-::============================================================================
-::
-::   Homepage: mass grave[.]dev
-::      Email: mas.help@outlook.com
-::
-::============================================================================
-
 
 if not "%~1"=="Task" (
 echo:
@@ -13989,12 +13933,6 @@ echo     C:\Program Files\Activation-Renewal\Activation_task.cmd
 echo     C:\Program Files\Activation-Renewal\Info.txt
 echo     C:\Program Files\Activation-Renewal\Logs.txt
 echo ______________________________________________________________________________________________
-echo:
-echo   This Script is a part of MAS project.
-echo:   
-echo   Homepage: mass grave[.]dev
-echo      Email: mas.help@outlook.com
-)>"%_dest%\Info.txt"
 exit /b
 
 ::========================================================================================================================================
@@ -16266,7 +16204,7 @@ set "line=______________________________________________________________________
 :at_menu
 
 cls
-title  Troubleshoot %masver%
+title  Troubleshoot %waver%
 if not defined terminal mode 77, 30
 
 echo:
@@ -16275,7 +16213,7 @@ echo:
 echo:
 echo:       _______________________________________________________________
 echo:                                                   
-call :dk_color2 %_White% "             [1] " %_Green% "Help"
+call :dk_color2 %_White% "
 echo:             ___________________________________________________
 echo:                                                                      
 echo:             [2] Dism RestoreHealth
@@ -16299,7 +16237,6 @@ if %_erl%==5 goto:retokens
 if %_erl%==4 goto:fixwmi
 if %_erl%==3 goto:sfcscan
 if %_erl%==2 goto:dism_rest
-if %_erl%==1 (start %selfgit% & start %github% & start %mas%troubleshoot & goto at_menu)
 goto :at_menu
 
 ::========================================================================================================================================
@@ -17349,7 +17286,7 @@ set "line=echo _________________________________________________________________
 
 cls
 if not defined terminal mode 98, 30
-title  Change Windows Edition %masver%
+title  Change Windows Edition %waver%
 
 if %winbuild% LSS 7600 (
 %eline%
@@ -17374,7 +17311,6 @@ call :dk_color %Blue% "Go back to Main Menu, select Troubleshoot and run DISM Re
 call :dk_color %Blue% "After that, restart system and try activation again."
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 )
@@ -17590,7 +17526,6 @@ echo [%targetedition% ^| %winbuild%]
 echo Failed to get product key from pkeyhelper.dll.
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 
@@ -17645,7 +17580,6 @@ call :dk_color %Gray% "Reboot is required to fully change the edition."
 call :dk_color %Red% "[Unsuccessful] [Error Code: !keyerror!]"
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 )
 
@@ -17726,7 +17660,6 @@ echo [%targetedition% ^| %winbuild%]
 echo Failed to get product key from pkeyhelper.dll.
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 
@@ -17802,7 +17735,6 @@ echo:
 call :dk_color %Blue% "In case there are errors, you should restart the system before trying again."
 echo:
 set fixes=%fixes% %mas%change_edition_issues
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%change_edition_issues"
 exit /b
 
 ::========================================================================================================================================
@@ -18214,7 +18146,7 @@ set "line=echo _________________________________________________________________
 
 cls
 if not defined terminal mode 98, 30
-title  Change Office Edition %masver%
+title  Change Office Edition %waver%
 
 if %winbuild% LSS 7600 (
 %eline%
@@ -18334,7 +18266,6 @@ echo which is not officially supported on your Windows build version %winbuild%.
 echo Aborting...
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 
@@ -18348,7 +18279,6 @@ echo Unsupported Office %verchk% is installed on your Windows build version %win
 echo Aborting...
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto dk_done
 )
 
@@ -18359,7 +18289,7 @@ goto dk_done
 cls
 set fixes=
 if not defined terminal mode 76, 25
-title  Change Office Edition %masver%
+title  Change Office Edition %waver%
 echo:
 echo:
 echo:
@@ -18401,9 +18331,9 @@ goto :oe_goback
 cls
 if not defined terminal mode 76, 25
 if %change%==1 (
-title  Change all editions %masver%
+title  Change all editions %waver%
 ) else (
-title  Add edition %masver%
+title  Add edition %waver%
 )
 
 echo:
@@ -18454,7 +18384,6 @@ if not exist %SystemRoot%\Temp\%list%.txt (
 echo Failed to generate available editions list.
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto :oe_goback
 )
 
@@ -18519,7 +18448,6 @@ if not exist %SystemRoot%\Temp\getAppIds.txt (
 echo Failed to generate available apps list.
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto :oe_goback
 )
 )
@@ -18733,7 +18661,6 @@ echo:
 call :dk_color %Gray% "To activate Office, run the activation option from the main menu."
 ) else (
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 call :oe_tempcleanup
@@ -18746,7 +18673,7 @@ goto :oe_goback
 :oe_editedition
 
 cls
-title  Add/Remove Apps %masver%
+title  Add/Remove Apps %waver%
 
 call :oe_chkinternet
 if not defined _int (
@@ -18804,7 +18731,7 @@ goto :oe_excludeappspre
 
 :oe_removeedition
 
-title  Remove Office editions %masver%
+title  Remove Office editions %waver%
 
 call :ch_getinfo
 
@@ -18876,7 +18803,6 @@ echo %c2rcommand%
 if %errorlevel% NEQ 0 (
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 goto :oe_goback
@@ -18887,7 +18813,7 @@ goto :oe_goback
 
 :oe_changeupdchnl
 
-title  Change Office update channel %masver%
+title  Change Office update channel %waver%
 call :ch_getinfo
 
 cls
@@ -19015,7 +18941,6 @@ echo:
 echo %updcommand%
 %updcommand%
 echo:
-echo Check this webpage for help - %mas%troubleshoot
 goto :oe_goback
 
 ::=======================
@@ -19041,7 +18966,6 @@ if not defined build (
 call :dk_color %Red% "Failed to detect build number for the target FFN."
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto :oe_goback
 )
 
@@ -19067,7 +18991,6 @@ echo:
 call :dk_color %Red% "Failed to update Office C2R client. Aborting..."
 echo:
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 goto :oe_goback
 )
 
@@ -19085,7 +19008,6 @@ if %errorcode% EQU 0 (
 call :dk_color %Gray% "Now run the Office activation option from the main menu."
 ) else (
 set fixes=%fixes% %mas%troubleshoot
-call :dk_color2 %Blue% "Check this webpage for help - " %_Yellow% " %mas%troubleshoot"
 )
 
 ::========================================================================================================================================
