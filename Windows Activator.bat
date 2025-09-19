@@ -1,4 +1,4 @@
-@set waver=1.1.0
+@set waver=1.1.1
 @setlocal DisableDelayedExpansion
 @echo off
 title Windows Activator Loader
