@@ -340,7 +340,7 @@ if not defined _ohookgo set _tsforgego=1
 echo:
 echo:
 echo:
-echo:
+echo:   						Windows Activator
 echo:       ______________________________________________________________
 echo:
 echo:                          Activation Methods:
